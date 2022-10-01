@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="/css/index.css" rel="stylesheet">
+    <title>ToDo</title>
+</head>
+<body>
+    <table>
+        <tbody>
+            <td>
+                <tr>
+                    <form th:action="@{/new}">
+                        <button class="add">Add new task</button>
+                    </form>
+                </tr>
+                <tr>
+                    <form th:action="@{/done_status}">
+                        <button class="show-done-tasks">Show done tasks</button>
+                    </form>
+                </tr>
+                <tr>
+                    <form th:action="@{/not_done_status}">
+                        <button class="show-not-done-tasks">Show not done tasks</button>
+                    </form>
+                </tr>
+                <tr>
+                    <form th:action="@{/delete/all}">
+                        <button class="delete-all">Delete all tasks</button>
+                    </form>
+                </tr>
+            </td>
+        </tbody>
+    </table>
+    <div th:switch="${tasks}">
+        <h2 th:case="null">No tasks found!</h2>
+        <div th:case="*">
+            <h2 id="h2">TASKS:</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>NAME</th>
+                        <th>CREATE DATE</th>
+                        <th>STATUS</th>
+                    </tr>
+                </thead>
+            <tbody>
+                <tr th:each="task : ${tasks}">
+                    <td>
+                        <a th:href="@{{id}(id=${task.getId()})}"
+                           th:text="${task.id}">task</a>
+                    </td>
+                    <td th:text="${task.name}"></td>
+                    <td th:text="${task.regDate}"></td>
+                    <td th:switch="${task.status}">
+                        <a th:case="true"> <span style="color:#17d05f">DONE</span></a>
+                        <a th:case="false"><span style="color:#ff0000">NOT DONE</span></a>
+                    </td>
+                    <td>
+                        <form th:action="@{/edit/{id}(id=${task.id})}">
+                            <button><img class="edit" th:src="@{img/edit2.png}"/></button>
+                        </form>
+                    </td>
+                    <td>
+                        <form th:action="@{/delete/{id}(id=${task.id})}">
+                            <button><img class="delete" th:src="@{img/false.png}"/></button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="/css/show.css" rel="stylesheet">
+    <title>ToDo</title>
+</head>
+<body>
+<table>
+    <tbody>
+    <td>
+        <tr>
+            <form th:action="@{/{id}/set_done(id=${task.id})}">
+                <button class="true-button">Set <span style="color:#27ff02">done</span></button>
+            </form>
+        </tr>
+        <tr>
+            <form th:action="@{/{id}/set_not_done(id=${task.id})}">
+                <button class="false-button">Set <span style="color:#ff0000">not done</span></button>
+            </form>
+        </tr>
+        <tr>
+            <form th:action="@{/edit/{id}(id=${task.id})}">
+                <button class="edit-button">Edit</button>
+            </form>
+        </tr>
+        <tr>
+            <form th:action="@{/}">
+                <button class="button-menu">Go to all tasks</button>
+            </form>
+        </tr>
+    </td>
+    </tbody>
+</table>
+<div class="main-div" th:switch="${task}">
+    <h2 th:case="null">WRONG TASK #ID! TASK NOT FOUND.</h2>
+    <div th:case="*">
+        <h2>TASK ID:
+            <a th:text="${task.id}"></a>
+            <br>
+            <a th:switch="${task.status}">
+                <p th:case="true"><span style="color:#27ae60">DONE </span></p>
+                <p th:case="false"><span style="color:#d35400">NOT DONE </span></p>
+            </a>
+        </h2>
+
+        <p><strong>NAME: </strong> <a th:text="${task.name}"></a></p>
+        <br>
+        <p><strong>DESCRIPTION: </strong> <a th:text="${task.description}"></a></p>
+        <br>
+        <p><strong>CREATE DATE: </strong> <a th:text="${task.regDate}"></a></p>
+        <br>
+        <p><strong>DEADLINE DATE: </strong> <a th:text="${task.closeDate}"></a></p>
+    </div>
+</div>
+</body>
+</html>
